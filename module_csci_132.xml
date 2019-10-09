@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_csci_132" default="compile.module.csci_132">
+  <dirname property="module.csci_132.basedir" file="${ant.file.module_csci_132}"/>
+  
+  <property name="module.jdk.home.csci_132" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.csci_132" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.csci_132" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.csci_132" value="-encoding UTF-8 -source 10 -target 10 ${compiler.args}"/>
+  
+  <property name="csci_132.output.dir" value="${module.csci_132.basedir}/out/production/CSCI_132"/>
+  <property name="csci_132.testoutput.dir" value="${module.csci_132.basedir}/out/test/CSCI_132"/>
+  
+  <path id="csci_132.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="csci_132.module.production.classpath">
+    <path refid="${module.jdk.classpath.csci_132}"/>
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/annotations/16.0.2/annotations-16.0.2.jar"/>
+  </path>
+  
+  <path id="csci_132.runtime.production.module.classpath">
+    <pathelement location="${csci_132.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/annotations/16.0.2/annotations-16.0.2.jar"/>
+  </path>
+  
+  <path id="csci_132.module.classpath">
+    <path refid="${module.jdk.classpath.csci_132}"/>
+    <pathelement location="${csci_132.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/annotations/16.0.2/annotations-16.0.2.jar"/>
+  </path>
+  
+  <path id="csci_132.runtime.module.classpath">
+    <pathelement location="${csci_132.testoutput.dir}"/>
+    <pathelement location="${csci_132.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/org/jetbrains/annotations/16.0.2/annotations-16.0.2.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.csci_132">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.csci_132">
+    <patternset refid="excluded.from.module.csci_132"/>
+  </patternset>
+  
+  <path id="csci_132.module.sourcepath">
+    <dirset dir="${module.csci_132.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.csci_132" depends="compile.module.csci_132.production,compile.module.csci_132.tests" description="Compile module CSCI_132"/>
+  
+  <target name="compile.module.csci_132.production" depends="register.custom.compilers" description="Compile module CSCI_132; production classes">
+    <mkdir dir="${csci_132.output.dir}"/>
+    <javac2 destdir="${csci_132.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.csci_132}/javac">
+      <compilerarg line="${compiler.args.csci_132}"/>
+      <bootclasspath refid="csci_132.module.bootclasspath"/>
+      <classpath refid="csci_132.module.production.classpath"/>
+      <src refid="csci_132.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.csci_132"/>
+    </javac2>
+    
+    <copy todir="${csci_132.output.dir}">
+      <fileset dir="${module.csci_132.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.csci_132.tests" depends="register.custom.compilers,compile.module.csci_132.production" description="compile module CSCI_132; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.csci_132" description="cleanup module">
+    <delete dir="${csci_132.output.dir}"/>
+    <delete dir="${csci_132.testoutput.dir}"/>
+  </target>
+</project>
